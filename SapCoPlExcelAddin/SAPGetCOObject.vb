@@ -5,6 +5,7 @@
 Imports SAP.Middleware.Connector
 
 Public Class SAPGetCOObject
+    Private Shared ReadOnly log As log4net.ILog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
     Private oRfcFunction As IRfcFunction
     Private destination As RfcCustomDestination
     Private sapcon As SapCon
@@ -12,7 +13,7 @@ Public Class SAPGetCOObject
     Sub New(aSapCon As SapCon)
         Try
             sapcon = aSapCon
-            destination = aSapCon.getDestination()
+            aSapCon.getDestination(destination)
             sapcon.checkCon()
         Catch ex As System.Exception
             MsgBox("New failed! " & ex.Message, MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical, "SAPGetCOObject")
@@ -22,6 +23,7 @@ Public Class SAPGetCOObject
     Public Function GetCoObjects(pType As String, pFiscy As String, pVersn As String,
                                  pKokrs As String, pBukrs As String, pObjects As Collection) As String
         GetCoObjects = "Failed"
+        Dim aSTATKEYFIG As String
         Try
             oRfcFunction = destination.Repository.CreateFunction("ZCOPC_GET_COOBJ")
             Dim oObjects As IRfcTable = oRfcFunction.GetTable("T_OBJECTS")
@@ -40,13 +42,18 @@ Public Class SAPGetCOObject
             For i As Integer = 0 To oObjects.Count - 1
                 Dim lSAPCOObject As New SAPCOObject
                 If Not (pType = "I" And oObjects(i).GetValue("SKOSTL") = "") Then
+                    Try
+                        aSTATKEYFIG = oObjects(i).GetValue("STAGR")
+                    Catch ex As Exception
+                        aSTATKEYFIG = ""
+                    End Try
                     lSAPCOObject = lSAPCOObject.create(oObjects(i).GetValue("KOSTL"),
                                                        oObjects(i).GetValue("LSTAR"),
                                                        oObjects(i).GetValue("KSTAR"),
                                                        oObjects(i).GetValue("SKOSTL"),
                                                        oObjects(i).GetValue("SLSTAR"),
                                                        oObjects(i).GetValue("WBS_ELEMENT"),
-                                                       "")
+                                                       aSTATKEYFIG)
                     pObjects.Add(lSAPCOObject)
                 End If
             Next i

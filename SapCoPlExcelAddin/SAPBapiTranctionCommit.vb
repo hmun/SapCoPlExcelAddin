@@ -5,13 +5,14 @@ Imports SAP.Middleware.Connector
 
 Public Class SAPBapiTranctionCommit
 
+    Private Shared ReadOnly log As log4net.ILog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
     Private oRfcFunction As IRfcFunction
     Private destination As RfcCustomDestination
     Private sapcon As SapCon
 
     Sub New(aSapCon As SapCon)
         sapcon = aSapCon
-        destination = aSapCon.getDestination()
+        aSapCon.getDestination(destination)
         oRfcFunction = destination.Repository.CreateFunction("BAPI_TRANSACTION_COMMIT")
     End Sub
 

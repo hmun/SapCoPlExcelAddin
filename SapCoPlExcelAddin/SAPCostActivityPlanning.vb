@@ -5,6 +5,7 @@
 Imports SAP.Middleware.Connector
 
 Public Class SAPCostActivityPlanning
+    Private Shared ReadOnly log As log4net.ILog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
     Private oRfcFunction As IRfcFunction
     Private destination As RfcCustomDestination
     Private sapcon As SapCon
@@ -12,7 +13,7 @@ Public Class SAPCostActivityPlanning
     Sub New(aSapCon As SapCon)
         Try
             sapcon = aSapCon
-            destination = aSapCon.getDestination()
+            aSapCon.getDestination(destination)
             sapcon.checkCon()
         Catch ex As System.Exception
             MsgBox("New failed! " & ex.Message, MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical, "SAPCostActivityPlanning")
@@ -163,8 +164,9 @@ Public Class SAPCostActivityPlanning
 
     Public Function ReadActivityOutputTotS(pCoAre As String, pFiscy As String, pPfrom As String,
                              pPto As String, pVers As String, pCurt As String,
-                             pObjects As Collection, pData As Collection, pContrl As Collection) As String
+                             pObjects As Collection, ByRef pAOSets As Collection) As String
         ReadActivityOutputTotS = ""
+        pAOSets = New Collection
         Try
             oRfcFunction = destination.Repository.CreateFunction("BAPI_COSTACTPLN_READACTOUTPUT")
             RfcSessionManager.BeginContext(destination)
@@ -223,12 +225,13 @@ Public Class SAPCostActivityPlanning
                 ' call the BAPI
                 oRfcFunction.Invoke(destination)
                 If oRETURN.Count = 0 Then
-                    For i As Integer = 0 To oTotValue.Count - 1
-                        pData.Add(oTotValue(i), lKey)
-                    Next i
-                    For i As Integer = 0 To oContrl.Count - 1
-                        pContrl.Add(oContrl(i), lKey)
-                    Next i
+                    If oTotValue.Count = 1 And oContrl.Count = 1 Then
+                        Dim aAOSet As New AOSet
+                        aAOSet.Key = aObjRow
+                        aAOSet.Total = oTotValue(0)
+                        aAOSet.Control = oContrl(0)
+                        pAOSets.Add(aAOSet)
+                    End If
                 Else
                     For i As Integer = 0 To oRETURN.Count - 1
                         ReadActivityOutputTotS = ReadActivityOutputTotS & ";" & oRETURN(i).GetValue("MESSAGE")
@@ -765,7 +768,7 @@ Public Class SAPCostActivityPlanning
             End If
         Catch Ex As System.Exception
             MsgBox("Error: Exception " & Ex.Message, MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical, "SAPCostActivityPlanning")
-            PostActivityOutput = "Error: Exception in PostActivityOutputTot"
+            PostActivityOutput = "Error: Exception in PostActivityOutput"
         Finally
             RfcSessionManager.EndContext(destination)
         End Try
@@ -855,6 +858,7 @@ Public Class SAPCostActivityPlanning
                 oContrl.SetValue("ACT_PRICE_IND", CStr(lSAPFormat.unpack(aCtrlRow(4), 3)))
                 oContrl.SetValue("PREDIS_FXD_COST", CStr(aCtrlRow(5)))
                 oContrl.SetValue("ACT_CAT_ACTUAL", CStr(aCtrlRow(6)))
+                oContrl.SetValue("AVERAGE_PRICE_IND", CStr(aCtrlRow(7)))
             Next aObjRow
             ' call the BAPI
             oRfcFunction.Invoke(destination)
