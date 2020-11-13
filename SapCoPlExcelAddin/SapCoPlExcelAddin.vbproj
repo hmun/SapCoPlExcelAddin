@@ -34,7 +34,7 @@
     <PublishUrl>publish\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.3.6</ApplicationVersion>
+    <ApplicationVersion>1.0.3.8</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -239,11 +239,15 @@
   <ItemGroup>
     <AppDesigner Include="My Project\" />
     <Compile Include="AOKey.vb" />
-    <Compile Include="FormDestinations.Designer.vb" />
+    <Compile Include="FormDestinations.Designer.vb">
+      <DependentUpon>FormDestinations.vb</DependentUpon>
+    </Compile>
     <Compile Include="FormDestinations.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormLogon.Designer.vb" />
+    <Compile Include="FormLogon.Designer.vb">
+      <DependentUpon>FormLogon.vb</DependentUpon>
+    </Compile>
     <Compile Include="FormLogon.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -259,15 +263,32 @@
     <Compile Include="SapCoPlExcelAddin.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SapCoPlRibbonCosting.vb" />
     <Compile Include="SAPCostActivityPlanning.vb" />
     <Compile Include="SapExcelDestination.vb" />
     <Compile Include="SAPFormat.vb" />
     <Compile Include="SapGeneral.vb" />
     <Compile Include="SAPGetCOObject.vb" />
     <Compile Include="SapInMemoryDestinationConfiguration.vb" />
+    <Compile Include="SapUnitCosting.vb" />
+    <Compile Include="TData.vb" />
+    <Compile Include="TDataRec.vb" />
     <Compile Include="TField.vb" />
-    <EmbeddedResource Include="FormDestinations.resx" />
-    <EmbeddedResource Include="FormLogon.resx" />
+    <Compile Include="TSAP_CostingData.vb" />
+    <Compile Include="TSAP_Plan.vb" />
+    <Compile Include="TPlan.vb" />
+    <Compile Include="CeMap.vb" />
+    <Compile Include="WBSILimit.vb" />
+    <Compile Include="WBSInfo.vb" />
+    <Compile Include="TPar.vb" />
+    <Compile Include="CeMapRec.vb" />
+    <Compile Include="WBSInfoRec.vb" />
+    <Compile Include="TPlanRec.vb" />
+    <Compile Include="WBSLimitRec.vb" />
+    <Compile Include="TStrRec.vb" />
+    <EmbeddedResource Include="FormLogon.resx">
+      <DependentUpon>FormLogon.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SapCoPlRibbon.resx">
       <DependentUpon>SapCoPlRibbon.vb</DependentUpon>
     </EmbeddedResource>
@@ -353,7 +374,7 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>6BAB58755E88C24AA3612D6503EE9AE9DC851B47</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>FE66A3795EEE112C7F24516441C15AE68E19954F</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>

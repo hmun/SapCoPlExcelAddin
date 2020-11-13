@@ -50,8 +50,8 @@
         Me.ButtonPostAO = Me.Factory.CreateRibbonButton
         Me.ButtonPostPC = Me.Factory.CreateRibbonButton
         Me.ButtonPostAI = Me.Factory.CreateRibbonButton
-        Me.ButtonPostSK = Me.Factory.CreateRibbonButton
         Me.ButtonReadSK = Me.Factory.CreateRibbonButton
+        Me.ButtonPostSK = Me.Factory.CreateRibbonButton
         Me.SAPCoOmPlanPer = Me.Factory.CreateRibbonGroup
         Me.ButtonReadPerAO = Me.Factory.CreateRibbonButton
         Me.ButtonReadPerPC = Me.Factory.CreateRibbonButton
@@ -59,14 +59,22 @@
         Me.ButtonPostPerAO = Me.Factory.CreateRibbonButton
         Me.ButtonPostPerPC = Me.Factory.CreateRibbonButton
         Me.ButtonPostPerAI = Me.Factory.CreateRibbonButton
-        Me.ButtonPostPerSK = Me.Factory.CreateRibbonButton
         Me.ButtonReadPerSK = Me.Factory.CreateRibbonButton
+        Me.ButtonPostPerSK = Me.Factory.CreateRibbonButton
+        Me.SAPPsPlan = Me.Factory.CreateRibbonGroup
+        Me.ButtonPsUpdCheck = Me.Factory.CreateRibbonButton
+        Me.ButtonPsUpdPost = Me.Factory.CreateRibbonButton
+        Me.SAPCoCosting = Me.Factory.CreateRibbonGroup
+        Me.ButtonCostingCreate = Me.Factory.CreateRibbonButton
+        Me.ButtonCostingChange = Me.Factory.CreateRibbonButton
         Me.SAPCoPlLogon = Me.Factory.CreateRibbonGroup
         Me.ButtonLogon = Me.Factory.CreateRibbonButton
         Me.ButtonLogoff = Me.Factory.CreateRibbonButton
         Me.SapCoPl.SuspendLayout()
         Me.SAPCoOmPlan.SuspendLayout()
         Me.SAPCoOmPlanPer.SuspendLayout()
+        Me.SAPPsPlan.SuspendLayout()
+        Me.SAPCoCosting.SuspendLayout()
         Me.SAPCoPlLogon.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -74,6 +82,8 @@
         '
         Me.SapCoPl.Groups.Add(Me.SAPCoOmPlan)
         Me.SapCoPl.Groups.Add(Me.SAPCoOmPlanPer)
+        Me.SapCoPl.Groups.Add(Me.SAPPsPlan)
+        Me.SapCoPl.Groups.Add(Me.SAPCoCosting)
         Me.SapCoPl.Groups.Add(Me.SAPCoPlLogon)
         Me.SapCoPl.Label = "SAP CO-PL"
         Me.SapCoPl.Name = "SapCoPl"
@@ -140,14 +150,6 @@
         Me.ButtonPostAI.ScreenTip = "Post Activity Input"
         Me.ButtonPostAI.ShowImage = True
         '
-        'ButtonPostSK
-        '
-        Me.ButtonPostSK.Image = CType(resources.GetObject("ButtonPostSK.Image"), System.Drawing.Image)
-        Me.ButtonPostSK.Label = "Post SK"
-        Me.ButtonPostSK.Name = "ButtonPostSK"
-        Me.ButtonPostSK.ScreenTip = "Post Statistical Keyfigures"
-        Me.ButtonPostSK.ShowImage = True
-        '
         'ButtonReadSK
         '
         Me.ButtonReadSK.Image = CType(resources.GetObject("ButtonReadSK.Image"), System.Drawing.Image)
@@ -155,6 +157,14 @@
         Me.ButtonReadSK.Name = "ButtonReadSK"
         Me.ButtonReadSK.ScreenTip = "Read Statistical Keyfigures"
         Me.ButtonReadSK.ShowImage = True
+        '
+        'ButtonPostSK
+        '
+        Me.ButtonPostSK.Image = CType(resources.GetObject("ButtonPostSK.Image"), System.Drawing.Image)
+        Me.ButtonPostSK.Label = "Post SK"
+        Me.ButtonPostSK.Name = "ButtonPostSK"
+        Me.ButtonPostSK.ScreenTip = "Post Statistical Keyfigures"
+        Me.ButtonPostSK.ShowImage = True
         '
         'SAPCoOmPlanPer
         '
@@ -217,6 +227,14 @@
         Me.ButtonPostPerAI.ScreenTip = "Post Activity Input"
         Me.ButtonPostPerAI.ShowImage = True
         '
+        'ButtonReadPerSK
+        '
+        Me.ButtonReadPerSK.Image = CType(resources.GetObject("ButtonReadPerSK.Image"), System.Drawing.Image)
+        Me.ButtonReadPerSK.Label = "Read Per SK"
+        Me.ButtonReadPerSK.Name = "ButtonReadPerSK"
+        Me.ButtonReadPerSK.ScreenTip = "Read Statistical Keyfigures"
+        Me.ButtonReadPerSK.ShowImage = True
+        '
         'ButtonPostPerSK
         '
         Me.ButtonPostPerSK.Image = CType(resources.GetObject("ButtonPostPerSK.Image"), System.Drawing.Image)
@@ -225,13 +243,51 @@
         Me.ButtonPostPerSK.ScreenTip = "Post Statistical Keyfigures"
         Me.ButtonPostPerSK.ShowImage = True
         '
-        'ButtonReadPerSK
+        'SAPPsPlan
         '
-        Me.ButtonReadPerSK.Image = CType(resources.GetObject("ButtonReadPerSK.Image"), System.Drawing.Image)
-        Me.ButtonReadPerSK.Label = "Read Per SK"
-        Me.ButtonReadPerSK.Name = "ButtonReadPerSK"
-        Me.ButtonReadPerSK.ScreenTip = "Read Statistical Keyfigures"
-        Me.ButtonReadPerSK.ShowImage = True
+        Me.SAPPsPlan.Items.Add(Me.ButtonPsUpdCheck)
+        Me.SAPPsPlan.Items.Add(Me.ButtonPsUpdPost)
+        Me.SAPPsPlan.Label = "PS Plan"
+        Me.SAPPsPlan.Name = "SAPPsPlan"
+        '
+        'ButtonPsUpdCheck
+        '
+        Me.ButtonPsUpdCheck.Image = CType(resources.GetObject("ButtonPsUpdCheck.Image"), System.Drawing.Image)
+        Me.ButtonPsUpdCheck.Label = "Check ERP Update"
+        Me.ButtonPsUpdCheck.Name = "ButtonPsUpdCheck"
+        Me.ButtonPsUpdCheck.ScreenTip = "Check ERP PS Plan Data"
+        Me.ButtonPsUpdCheck.ShowImage = True
+        '
+        'ButtonPsUpdPost
+        '
+        Me.ButtonPsUpdPost.Image = CType(resources.GetObject("ButtonPsUpdPost.Image"), System.Drawing.Image)
+        Me.ButtonPsUpdPost.Label = "Post ERP Update"
+        Me.ButtonPsUpdPost.Name = "ButtonPsUpdPost"
+        Me.ButtonPsUpdPost.ScreenTip = "Post ERP PS Plan Data"
+        Me.ButtonPsUpdPost.ShowImage = True
+        '
+        'SAPCoCosting
+        '
+        Me.SAPCoCosting.Items.Add(Me.ButtonCostingCreate)
+        Me.SAPCoCosting.Items.Add(Me.ButtonCostingChange)
+        Me.SAPCoCosting.Label = "CO-PC Costing"
+        Me.SAPCoCosting.Name = "SAPCoCosting"
+        '
+        'ButtonCostingCreate
+        '
+        Me.ButtonCostingCreate.Image = CType(resources.GetObject("ButtonCostingCreate.Image"), System.Drawing.Image)
+        Me.ButtonCostingCreate.Label = "Create Costing"
+        Me.ButtonCostingCreate.Name = "ButtonCostingCreate"
+        Me.ButtonCostingCreate.ScreenTip = "Create CO-PC Costing"
+        Me.ButtonCostingCreate.ShowImage = True
+        '
+        'ButtonCostingChange
+        '
+        Me.ButtonCostingChange.Image = CType(resources.GetObject("ButtonCostingChange.Image"), System.Drawing.Image)
+        Me.ButtonCostingChange.Label = "Change Costing"
+        Me.ButtonCostingChange.Name = "ButtonCostingChange"
+        Me.ButtonCostingChange.ScreenTip = "Change CO-PC Costing"
+        Me.ButtonCostingChange.ShowImage = True
         '
         'SAPCoPlLogon
         '
@@ -265,6 +321,10 @@
         Me.SAPCoOmPlan.PerformLayout()
         Me.SAPCoOmPlanPer.ResumeLayout(False)
         Me.SAPCoOmPlanPer.PerformLayout()
+        Me.SAPPsPlan.ResumeLayout(False)
+        Me.SAPPsPlan.PerformLayout()
+        Me.SAPCoCosting.ResumeLayout(False)
+        Me.SAPCoCosting.PerformLayout()
         Me.SAPCoPlLogon.ResumeLayout(False)
         Me.SAPCoPlLogon.PerformLayout()
         Me.ResumeLayout(False)
@@ -293,6 +353,12 @@
     Friend WithEvents SAPCoPlLogon As Microsoft.Office.Tools.Ribbon.RibbonGroup
     Friend WithEvents ButtonLogon As Microsoft.Office.Tools.Ribbon.RibbonButton
     Friend WithEvents ButtonLogoff As Microsoft.Office.Tools.Ribbon.RibbonButton
+    Friend WithEvents SAPPsPlan As Microsoft.Office.Tools.Ribbon.RibbonGroup
+    Friend WithEvents ButtonPsUpdCheck As Microsoft.Office.Tools.Ribbon.RibbonButton
+    Friend WithEvents ButtonPsUpdPost As Microsoft.Office.Tools.Ribbon.RibbonButton
+    Friend WithEvents SAPCoCosting As Microsoft.Office.Tools.Ribbon.RibbonGroup
+    Friend WithEvents ButtonCostingCreate As Microsoft.Office.Tools.Ribbon.RibbonButton
+    Friend WithEvents ButtonCostingChange As Microsoft.Office.Tools.Ribbon.RibbonButton
 End Class
 
 Partial Class ThisRibbonCollection
