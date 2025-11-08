@@ -10,12 +10,16 @@ Public Class SAPCOObject
     Public SActtype As String
     Public WBS_ELEMENT As String
     Public STATKEYFIG As String
+    Public ORDERID As String
+    Public ORDER_CELEM As String
 
     Public Function create(pCostcenter As String, pActtype As String, pCostelem As String,
                             Optional pSCostcenter As String = "",
                             Optional pSActtype As String = "",
                             Optional pWBS_ELEMENT As String = "",
-                            Optional pSTATKEYFIG As String = "") As SAPCOObject
+                            Optional pSTATKEYFIG As String = "",
+                            Optional pORDERID As String = "",
+                            Optional pORDER_CELEM As String = "") As SAPCOObject
         Dim aSAPCOObject As New SAPCOObject
 
         aSAPCOObject.Costcenter = pCostcenter
@@ -25,6 +29,8 @@ Public Class SAPCOObject
         aSAPCOObject.SActtype = pSActtype
         aSAPCOObject.WBS_ELEMENT = pWBS_ELEMENT
         aSAPCOObject.STATKEYFIG = pSTATKEYFIG
+        aSAPCOObject.ORDERID = pORDERID
+        aSAPCOObject.ORDER_CELEM = pORDER_CELEM
         create = aSAPCOObject
     End Function
 

@@ -721,8 +721,8 @@ Public Class SapCoPlRibbon
             Do
                 Dim aSAPCOObject = New SAPCOObject
                 aSAPCOObject = aSAPCOObject.create(CStr(aDws.Cells(i, 1).Value),
-                                               CStr(aDws.Cells(i, 3).Value), "",
-                                               CStr(aDws.Cells(i, 4).Value), CStr(aDws.Cells(i, 5).Value), CStr(aDws.Cells(i, 2).Value))
+                                           CStr(aDws.Cells(i, 3).Value), "",
+                                           CStr(aDws.Cells(i, 4).Value), CStr(aDws.Cells(i, 5).Value), CStr(aDws.Cells(i, 2).Value))
                 aObjects.Add(aSAPCOObject)
                 aDataRow = New Collection
                 For J = 6 To 10
@@ -1401,9 +1401,16 @@ Public Class SapCoPlRibbon
             i = 2
             Do
                 Dim aSAPCOObject = New SAPCOObject
-                aSAPCOObject = aSAPCOObject.create(CStr(aDws.Cells(i, 1).Value),
+                If Not String.IsNullOrEmpty(CStr(aDws.Cells(i, 39).Value)) Then
+                    aSAPCOObject = aSAPCOObject.create(CStr(aDws.Cells(i, 1).Value),
+                                               CStr(aDws.Cells(i, 3).Value), "",
+                                               CStr(aDws.Cells(i, 4).Value), CStr(aDws.Cells(i, 5).Value), CStr(aDws.Cells(i, 2).Value),
+                                               pORDER_CELEM:=CStr(aDws.Cells(i, 39).Value))
+                Else
+                    aSAPCOObject = aSAPCOObject.create(CStr(aDws.Cells(i, 1).Value),
                                                CStr(aDws.Cells(i, 3).Value), "",
                                                CStr(aDws.Cells(i, 4).Value), CStr(aDws.Cells(i, 5).Value), CStr(aDws.Cells(i, 2).Value))
+                End If
                 aObjects.Add(aSAPCOObject)
                 aDataRow = New Collection
                 aDataRow.Add(CStr(aDws.Cells(i, 6).Value)) ' Unit of Meassure

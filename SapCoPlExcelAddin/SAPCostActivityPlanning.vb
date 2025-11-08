@@ -1005,6 +1005,9 @@ Public Class SAPCostActivityPlanning
                 oPerValue.SetValue("VALUE_INDEX", lCnt)
                 oPerValue.SetValue("SEND_CCTR", lSAPFormat.unpack(aObjRow.SCostcenter, 10))
                 oPerValue.SetValue("SEND_ACTIVITY", aObjRow.SActtype)
+                If aObjRow.ORDER_CELEM <> "" Then
+                    oPerValue.SetValue("ORDER_CELEM", lSAPFormat.unpack(aObjRow.ORDER_CELEM, 10))
+                End If
                 '   move the values from the data
                 aDataRow = pData(lCnt)
                 oPerValue.SetValue("UNIT_OF_MEASURE", CStr(aDataRow(1)))
