@@ -1,27 +1,39 @@
-﻿Public Class TDataRec
+﻿' Copyright 2020 Hermann Mundprecht
+' This file is licensed under the terms of the license 'CC BY 4.0'. 
+' For a human readable version of the license, see https://creativecommons.org/licenses/by/4.0/
+
+Public Class TDataRec
 
     Public aTDataRecCol As Collection
-    Public Sub New()
+    Private aIntPar As SAPCommon.TStr
+
+    Public Sub New(ByRef pIntPar As SAPCommon.TStr)
         aTDataRecCol = New Collection
+        aIntPar = pIntPar
     End Sub
 
     Public Sub setValues(pNAME As String, pVALUE As String, pCURRENCY As String, pFORMAT As String,
-                         Optional pEmty As Boolean = False, Optional pEmptyChar As String = "#", Optional pOperation As String = "set")
+                         Optional pEmty As Boolean = False, Optional pEmptyChar As String = "#", Optional pOperation As String = "set", Optional pUseAsEmpty As String = "#")
         Dim aTStrRec As SAPCommon.TStrRec
         Dim aNameArray() As String
         Dim aKey As String
         Dim aSTRUCNAME As String = ""
         Dim aFIELDNAME As String = ""
-        ' do not add empty values
-        If Not pEmty And pVALUE = pEmptyChar Then
-            Exit Sub
+        Dim aValue As String
+        If pVALUE = pUseAsEmpty Then
+            aValue = " "
+        Else
+            aValue = pVALUE
+            If Not pEmty And aValue = pEmptyChar Then
+                Exit Sub
+            End If
         End If
+        ' do not add empty values
+
         If InStr(pNAME, "-") <> 0 Then
             aNameArray = Split(pNAME, "-")
             aSTRUCNAME = aNameArray(0)
-            For i As Integer = 1 To aNameArray.Length - 1
-                aFIELDNAME = If(String.IsNullOrEmpty(aFIELDNAME), aNameArray(i), aFIELDNAME & "-" & aNameArray(i))
-            Next
+            aFIELDNAME = aNameArray(1)
         Else
             aSTRUCNAME = ""
             aFIELDNAME = pNAME
@@ -31,19 +43,19 @@
             aTStrRec = aTDataRecCol(aKey)
             Select Case pOperation
                 Case "add"
-                    aTStrRec.addValues(aSTRUCNAME, aFIELDNAME, pVALUE, pCURRENCY, pFORMAT)
+                    aTStrRec.addValues(aSTRUCNAME, aFIELDNAME, aValue, pCURRENCY, pFORMAT)
                 Case "sub"
-                    aTStrRec.subValues(aSTRUCNAME, aFIELDNAME, pVALUE, pCURRENCY, pFORMAT)
+                    aTStrRec.subValues(aSTRUCNAME, aFIELDNAME, aValue, pCURRENCY, pFORMAT)
                 Case "mul"
-                    aTStrRec.mulValues(aSTRUCNAME, aFIELDNAME, pVALUE, pCURRENCY, pFORMAT)
+                    aTStrRec.mulValues(aSTRUCNAME, aFIELDNAME, aValue, pCURRENCY, pFORMAT)
                 Case "div"
-                    aTStrRec.divValues(aSTRUCNAME, aFIELDNAME, pVALUE, pCURRENCY, pFORMAT)
+                    aTStrRec.divValues(aSTRUCNAME, aFIELDNAME, aValue, pCURRENCY, pFORMAT)
                 Case Else
-                    aTStrRec.setValues(aSTRUCNAME, aFIELDNAME, pVALUE, pCURRENCY, pFORMAT)
+                    aTStrRec.setValues(aSTRUCNAME, aFIELDNAME, aValue, pCURRENCY, pFORMAT)
             End Select
         Else
             aTStrRec = New SAPCommon.TStrRec
-            aTStrRec.setValues(aSTRUCNAME, aFIELDNAME, pVALUE, pCURRENCY, pFORMAT)
+            aTStrRec.setValues(aSTRUCNAME, aFIELDNAME, aValue, pCURRENCY, pFORMAT)
             aTDataRecCol.Add(aTStrRec, aKey)
         End If
     End Sub
@@ -66,6 +78,24 @@
         Next
     End Sub
 
+    Public Function getColumn(pClmn As String) As SAPCommon.TStrRec
+        Dim aTStrRec As SAPCommon.TStrRec
+        If aTDataRecCol.Contains(pClmn) Then
+            aTStrRec = aTDataRecCol(pClmn)
+            getColumn = aTStrRec
+        End If
+    End Function
+
+    Public Function getMaterial() As String
+        Dim aTlClmn As String = If(aIntPar.value("COL", "MATERIAL") <> "", aIntPar.value("COL", "MATERIAL"), "MATERIAL")
+        Dim aTStrRec As SAPCommon.TStrRec
+        getMaterial = ""
+        If aTDataRecCol.Contains(aTlClmn) Then
+            aTStrRec = aTDataRecCol(aTlClmn)
+            getMaterial = aTStrRec.Value
+        End If
+    End Function
+
     Public Function getPost(ByRef pPar As SAPCommon.TStr) As String
         Dim aClmn As String = If(pPar.value("COL", "DATAPOST") <> "", pPar.value("COL", "DATAPOST"), "INT-POST")
         Dim aTStrRec As SAPCommon.TStrRec
@@ -76,46 +106,18 @@
         End If
     End Function
 
-    Public Function getAccType(ByRef pPar As SAPCommon.TStr) As String
-        Dim aClmn As String = If(pPar.value("COL", "DATAACCTYPE") <> "", pPar.value("COL", "DATAACCTYPE"), "INT-ACCTYPE")
+    Public Sub toRange(pFields() As String, pIsValue() As String, ByRef aRange As Excel.Range)
         Dim aTStrRec As SAPCommon.TStrRec
-        getAccType = ""
-        If aTDataRecCol.Contains(aClmn) Then
-            aTStrRec = aTDataRecCol(aClmn)
-            getAccType = aTStrRec.Value
-        End If
-    End Function
-
-    Public Function getAccount(ByRef pPar As SAPCommon.TStr) As String
-        Dim aClmn As String = If(pPar.value("COL", "DATAACCOUNT") <> "", pPar.value("COL", "DATAACCOUNT"), "INT-ACCOUNT")
-        Dim aTStrRec As SAPCommon.TStrRec
-        getAccount = ""
-        If aTDataRecCol.Contains(aClmn) Then
-            aTStrRec = aTDataRecCol(aClmn)
-            getAccount = aTStrRec.Value
-        End If
-    End Function
-
-    Public Function getAccTStrRec(ByRef pPar As SAPCommon.TStr) As SAPCommon.TStrRec
-        Dim aClmn As String = If(pPar.value("COL", "DATAACCOUNT") <> "", pPar.value("COL", "DATAACCOUNT"), "INT-ACCOUNT")
-        Dim aTStrRec As SAPCommon.TStrRec
-        getAccTStrRec = New SAPCommon.TStrRec
-        If aTDataRecCol.Contains(aClmn) Then
-            getAccTStrRec = aTDataRecCol(aClmn)
-        End If
-    End Function
-
-
-    Public Function getIsPa(ByRef pPar As SAPCommon.TStr) As Boolean
-        Dim aClmn As String = If(pPar.value("COL", "DATAISPA") <> "", pPar.value("COL", "DATAISPA"), "INT-ISPA")
-        Dim aTStrRec As SAPCommon.TStrRec
-        getIsPa = False
-        If aTDataRecCol.Contains(aClmn) Then
-            aTStrRec = aTDataRecCol(aClmn)
-            If aTStrRec.Value = "Y" Or aTStrRec.Value = "y" Or aTStrRec.Value = "X" Or aTStrRec.Value = "x" Then
-                getIsPa = True
+        For i = 0 To pFields.Count - 1
+            If aTDataRecCol.Contains(pFields(i)) Then
+                aTStrRec = aTDataRecCol(pFields(i))
+                If pIsValue(i) = "X" Then
+                    aRange(1, i + 1).Value = CDbl(aTStrRec.formated())
+                Else
+                    aRange(1, i + 1).Value = CStr(aTStrRec.formated())
+                End If
             End If
-        End If
-    End Function
+        Next
+    End Sub
 
 End Class

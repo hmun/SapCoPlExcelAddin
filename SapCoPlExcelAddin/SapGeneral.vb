@@ -6,8 +6,8 @@ Imports System.Reflection
 Imports System.Diagnostics
 
 Public Class SapGeneral
-    Const cVersion As String = "1.0.3.5"
-    Const cAssemblyName As String = "SapCoPlExcelAddin"
+    Const cVersion As String = "1.0.0.0"
+    Const cAssemblyName As String = "SapCoPlExcelAddIn"
     Private Shared ReadOnly log As log4net.ILog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
     Private _version As String
     Private _assemblyname As String
@@ -35,11 +35,11 @@ Public Class SapGeneral
         Dim aFromVersion As String
         Dim aToVersion As String
 
-        aWB = Globals.SapCoPlExcelAddin.Application.ActiveWorkbook
+        aWB = Globals.ThisAddIn.Application.ActiveWorkbook
         Try
             aCws = aWB.Worksheets("SAP-Con")
         Catch Exc As System.Exception
-            MsgBox("No SAP-Con Sheet in current workbook. Check if the current workbook is a valid SAP CO Planning Template",
+            MsgBox("No SAP-Con Sheet in current workbook. Check if the current workbook is a valid SAP Accounting Template",
                    MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical, "SapGeneral")
             checkVersion = False
             log.Error("checkVersion - Exception=" & Exc.ToString)

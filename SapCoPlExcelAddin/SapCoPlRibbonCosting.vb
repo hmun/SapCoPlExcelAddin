@@ -12,7 +12,7 @@ Public Class SapCoPlRibbonCosting
         Dim aName As String
         Dim i As Integer
         log.Debug("SapCoPlRibbonCosting getGenParametrs - " & "reading Parameter")
-        aWB = Globals.SapCoPlExcelAddin.Application.ActiveWorkbook
+        aWB = Globals.ThisAddIn.Application.ActiveWorkbook
         Try
             aPws = aWB.Worksheets("Parameter")
         Catch Exc As System.Exception
@@ -43,7 +43,7 @@ Public Class SapCoPlRibbonCosting
         Dim i As Integer
 
         log.Debug("getIntParameters - " & "reading Parameter")
-        aWB = Globals.SapCoPlExcelAddin.Application.ActiveWorkbook
+        aWB = Globals.ThisAddIn.Application.ActiveWorkbook
         Try
             aPws = aWB.Worksheets("Parameter_Int")
         Catch Exc As System.Exception
@@ -83,7 +83,7 @@ Public Class SapCoPlRibbonCosting
 
         Dim aSAPUnitCosting As New SapUnitCosting(pSapCon, aIntPar)
 
-        aWB = Globals.SapCoPlExcelAddin.Application.ActiveWorkbook
+        aWB = Globals.ThisAddIn.Application.ActiveWorkbook
         Dim aDwsName As String = If(aIntPar.value("WS", "DATA") <> "", aIntPar.value("WS", "DATA"), "Costing")
         Try
             aDws = aWB.Worksheets(aDwsName)
@@ -97,7 +97,7 @@ Public Class SapCoPlRibbonCosting
             log.Debug("SapCoPlRibbonCosting.exec - " & "processing data - disabling events, screen update, cursor")
             aDws.Activate()
             Dim aItems As New TData(aIntPar)
-            Dim aItem As New TDataRec
+            Dim aItem As New TDataRec(aIntPar)
             Dim aKey As String
             Dim j As UInt64
             Dim jMax As UInt64 = 0
@@ -110,9 +110,9 @@ Public Class SapCoPlRibbonCosting
             Dim aPostClmnNr As Integer = 0
             Dim aOKMsg As String = If(aIntPar.value("RET", "OKMSG") <> "", aIntPar.value("RET", "OKMSG"), "OK")
 
-            Globals.SapCoPlExcelAddin.Application.Cursor = Microsoft.Office.Interop.Excel.XlMousePointer.xlWait
-            Globals.SapCoPlExcelAddin.Application.EnableEvents = False
-            Globals.SapCoPlExcelAddin.Application.ScreenUpdating = False
+            Globals.ThisAddIn.Application.Cursor = Microsoft.Office.Interop.Excel.XlMousePointer.xlWait
+            Globals.ThisAddIn.Application.EnableEvents = False
+            Globals.ThisAddIn.Application.ScreenUpdating = False
             Dim i As UInt64 = aLOff + 1
             ' determine the last column and create the fieldlist
             Do
@@ -186,13 +186,13 @@ Public Class SapCoPlRibbonCosting
                 i += 1
             Loop While CStr(aDws.Cells(i, 1).Value) <> ""
             log.Debug("SapCoPlRibbonCosting.exec - " & "all data processed - enabling events, screen update, cursor")
-            Globals.SapCoPlExcelAddin.Application.EnableEvents = True
-            Globals.SapCoPlExcelAddin.Application.ScreenUpdating = True
-            Globals.SapCoPlExcelAddin.Application.Cursor = Microsoft.Office.Interop.Excel.XlMousePointer.xlDefault
+            Globals.ThisAddIn.Application.EnableEvents = True
+            Globals.ThisAddIn.Application.ScreenUpdating = True
+            Globals.ThisAddIn.Application.Cursor = Microsoft.Office.Interop.Excel.XlMousePointer.xlDefault
         Catch ex As System.Exception
-            Globals.SapCoPlExcelAddin.Application.EnableEvents = True
-            Globals.SapCoPlExcelAddin.Application.ScreenUpdating = True
-            Globals.SapCoPlExcelAddin.Application.Cursor = Microsoft.Office.Interop.Excel.XlMousePointer.xlDefault
+            Globals.ThisAddIn.Application.EnableEvents = True
+            Globals.ThisAddIn.Application.ScreenUpdating = True
+            Globals.ThisAddIn.Application.Cursor = Microsoft.Office.Interop.Excel.XlMousePointer.xlDefault
             MsgBox("SapCoPlRibbonCosting.exec failed! " & ex.Message, MsgBoxStyle.OkOnly Or MsgBoxStyle.Critical, "Sap CO Pl")
             log.Error("SapCoPlRibbonCosting.exec - " & "Exception=" & ex.ToString)
             Exit Sub

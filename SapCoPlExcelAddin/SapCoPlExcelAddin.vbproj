@@ -248,7 +248,8 @@
     <Compile Include="FormLogon.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAPCOObject.vb" />
+    <Compile Include="MigHelperVsto.vb" />
+    <Compile Include="Ribbon_Generate.vb" />
     <Compile Include="SapCoPlRibbon.Designer.vb">
       <DependentUpon>SapCoPlRibbon.vb</DependentUpon>
     </Compile>
@@ -261,26 +262,27 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SapCoPlRibbonCosting.vb" />
+    <Compile Include="SapCoPlRibbon_CostActPlan.vb" />
     <Compile Include="SAPCostActivityPlanning.vb" />
     <Compile Include="SapExcelDestination.vb" />
     <Compile Include="SAPFormat.vb" />
     <Compile Include="SapGeneral.vb" />
-    <Compile Include="SAPGetCOObject.vb" />
     <Compile Include="SapInMemoryDestinationConfiguration.vb" />
     <Compile Include="SapUnitCosting.vb" />
     <Compile Include="TData.vb" />
+    <Compile Include="TDataDic.vb" />
     <Compile Include="TDataRec.vb" />
-    <Compile Include="TField.vb" />
-    <Compile Include="TSAP_CostingData.vb" />
-    <Compile Include="TSAP_Plan.vb" />
+    <Compile Include="TPar.vb" />
     <Compile Include="TPlan.vb" />
+    <Compile Include="TPlanRec.vb" />
+    <Compile Include="TSAP_CostingData.vb" />
     <Compile Include="CeMap.vb" />
+    <Compile Include="TSAP_Data_CoPl.vb" />
+    <Compile Include="TSAP_Plan.vb" />
     <Compile Include="WBSILimit.vb" />
     <Compile Include="WBSInfo.vb" />
-    <Compile Include="TPar.vb" />
     <Compile Include="CeMapRec.vb" />
     <Compile Include="WBSInfoRec.vb" />
-    <Compile Include="TPlanRec.vb" />
     <Compile Include="WBSLimitRec.vb" />
     <Compile Include="TStrRec.vb" />
     <EmbeddedResource Include="FormLogon.resx">
@@ -371,7 +373,7 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>3684BB3E87F345D0A2FDC66FD9BB409E11568ED2</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>AB3D07FD538B99A74D431A9A603B929C48A856B2</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>

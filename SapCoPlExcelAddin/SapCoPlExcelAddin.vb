@@ -1,4 +1,5 @@
-﻿Public Class SapCoPlExcelAddin
+﻿
+Public Class SapCoPlExcelAddin
 
     Private Sub SapCoPlExcelAddin_Startup() Handles Me.Startup
         log4net.Config.XmlConfigurator.Configure()
