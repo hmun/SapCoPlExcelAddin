@@ -4,7 +4,7 @@
     Private aPlanningAllowedValue As String
     Private aPlanningAllowedStatus() As String
 
-    Public Sub New(ByRef pPar As TPar)
+    Public Sub New(ByRef pPar As SAPCommon.TStr)
         aWBSInfoCol = New Collection
         aPlanningAllowedValue = pPar.value("0WBS_ELEMT", "ZPSPLANEL")
         aPlanningAllowedStatus = Split(pPar.value("0WBS_ELEMT", "ZANWSTA"), ";")
@@ -26,12 +26,12 @@
     End Sub
 
     Public Function value(pSTRUCNAME As String, pFIELDNAME As String) As String
-        Dim aStrRec As TStrRec
+        Dim aStrRec As SAPCommon.TStrRec
         Dim aKey As String
         aKey = pSTRUCNAME & "-" & pFIELDNAME
         If aWBSInfoCol.Contains(pSTRUCNAME & "-" & pFIELDNAME) Then
             aStrRec = aWBSInfoCol(aKey)
-            value = aStrRec.VALUE.Value
+            value = aStrRec.Value
         Else
             value = ""
         End If

@@ -136,20 +136,16 @@
   -->
   <ItemGroup>
     <Reference Include="Accessibility" />
-    <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\..\SapCoPlExcelAddinSetup\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=2.0.14.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\SapCoPlExcelAddinSetup_x64\packages\log4net.2.0.14\lib\net45\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="sapnco_utils_x64">
-      <HintPath>..\..\sapnco\sapnco_utils_x64.dll</HintPath>
+    <Reference Include="sapnco, Version=3.1.0.42, Culture=neutral, PublicKeyToken=50436dca5c7f7d23, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\sapnco\x86\3.1\sapnco.dll</HintPath>
     </Reference>
-    <Reference Include="sapnco_utils_x86">
-      <HintPath>..\..\sapnco\sapnco_utils_x86.dll</HintPath>
-    </Reference>
-    <Reference Include="sapnco_x64">
-      <HintPath>..\..\sapnco\sapnco_x64.dll</HintPath>
-    </Reference>
-    <Reference Include="sapnco_x86">
-      <HintPath>..\..\sapnco\sapnco_x86.dll</HintPath>
+    <Reference Include="sapnco_utils, Version=3.1.0.42, Culture=neutral, PublicKeyToken=50436dca5c7f7d23, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\sapnco\x86\3.1\sapnco_utils.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -252,7 +248,8 @@
     <Compile Include="FormLogon.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAPCOObject.vb" />
+    <Compile Include="MigHelperVsto.vb" />
+    <Compile Include="Ribbon_Generate.vb" />
     <Compile Include="SapCoPlRibbon.Designer.vb">
       <DependentUpon>SapCoPlRibbon.vb</DependentUpon>
     </Compile>
@@ -265,28 +262,28 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SapCoPlRibbonCosting.vb" />
+    <Compile Include="SapCoPlRibbon_CostActPlan.vb" />
     <Compile Include="SAPCostActivityPlanning.vb" />
     <Compile Include="SapExcelDestination.vb" />
     <Compile Include="SAPFormat.vb" />
     <Compile Include="SapGeneral.vb" />
-    <Compile Include="SAPGetCOObject.vb" />
     <Compile Include="SapInMemoryDestinationConfiguration.vb" />
+    <Compile Include="SapRFCGetMeta.vb" />
     <Compile Include="SapUnitCosting.vb" />
     <Compile Include="TData.vb" />
+    <Compile Include="TDataDic.vb" />
     <Compile Include="TDataRec.vb" />
-    <Compile Include="TField.vb" />
-    <Compile Include="TSAP_CostingData.vb" />
-    <Compile Include="TSAP_Plan.vb" />
     <Compile Include="TPlan.vb" />
+    <Compile Include="TPlanRec.vb" />
+    <Compile Include="TSAP_CostingData.vb" />
     <Compile Include="CeMap.vb" />
+    <Compile Include="TSAP_Data_CoPl.vb" />
+    <Compile Include="TSAP_Plan.vb" />
     <Compile Include="WBSILimit.vb" />
     <Compile Include="WBSInfo.vb" />
-    <Compile Include="TPar.vb" />
     <Compile Include="CeMapRec.vb" />
     <Compile Include="WBSInfoRec.vb" />
-    <Compile Include="TPlanRec.vb" />
     <Compile Include="WBSLimitRec.vb" />
-    <Compile Include="TStrRec.vb" />
     <EmbeddedResource Include="FormLogon.resx">
       <DependentUpon>FormLogon.vb</DependentUpon>
     </EmbeddedResource>
@@ -375,7 +372,7 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>4796140AACB600D53AFD62F8B1413352620DE4CB</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>AB3D07FD538B99A74D431A9A603B929C48A856B2</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>

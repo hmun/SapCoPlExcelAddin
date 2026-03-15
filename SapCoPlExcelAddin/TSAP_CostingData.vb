@@ -19,11 +19,11 @@
     End Sub
 
     Public Function fillHeader(pData As TData) As Boolean
-        aHdrRec = New TDataRec
-        Dim aPostRec As New TDataRec
+        aHdrRec = New TDataRec(pIntPar:=aIntPar)
+        Dim aPostRec As New TDataRec(pIntPar:=aIntPar)
         Dim aKvb As KeyValuePair(Of String, SAPCommon.TStrRec)
         Dim aTStrRec As SAPCommon.TStrRec
-        Dim aNewHdrRec As New TDataRec
+        Dim aNewHdrRec As New TDataRec(pIntPar:=aIntPar)
         aPostRec = pData.getPostingRecord()
         For Each aKvb In aAccPar.getData()
             aTStrRec = aKvb.Value
@@ -156,7 +156,7 @@
             End If
 
             Dim aKvB As KeyValuePair(Of String, TDataRec)
-            Dim aDataRec As New TDataRec
+            Dim aDataRec As New TDataRec(aIntPar)
             Dim i As Int64
             Dim aTStrRec As New SAPCommon.TStrRec
             i = 6

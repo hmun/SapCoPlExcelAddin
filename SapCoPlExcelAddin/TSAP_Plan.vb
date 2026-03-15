@@ -1,7 +1,7 @@
 ﻿Public Class TSAP_Plan
 
     Public aTSAP_PlanCol As Collection
-    Private aPar As TPar
+    Private aPar As SAPCommon.TStr
 
     Private PC_Header_Fields() As String = {"CO_AREA", "FISC_YEAR", "PERIOD_FROM", "PERIOD_TO", "VERSION", "DOC_HDR_TX", "PLAN_CURRTYPE"}
     Private PC_Object_Fields() As String = {"COSTCENTER", "ACTTYPE", "CO_BUSPROC", "ORDERID", "WBS_ELEMENT"}
@@ -16,7 +16,7 @@
     Private AI_Object_Key() As String = {"COSTCENTER", "ACTTYPE", "CO_BUSPROC", "ORDERID", "WBS_ELEMENT"}
     Private AI_PerVal_Key() As String = {"SEND_CCTR", "SEND_ACTIVITY", "SENBUSPROC", "ORDER_CELEM", "SEND_FUNCTION"}
 
-    Public Sub New(ByRef pPar As TPar)
+    Public Sub New(ByRef pPar As SAPCommon.TStr)
         aTSAP_PlanCol = New Collection
         aPar = pPar
     End Sub
@@ -25,7 +25,7 @@
         Dim aYear As String
         Dim aTPlanRec As New TPlanRec
         Dim aPCaTPlanRec As TPlanRec
-        Dim aTStrRec As TStrRec
+        Dim aTStrRec As SAPCommon.TStrRec
         Dim aKey As String
         For Each aTPlanRec In pTPlan.aTPlanCol
             If Not aTPlanRec.aTPlanRecCol.Contains("PERVALUE-SEND_CCTR") And Not aTPlanRec.aTPlanRecCol.Contains("PERVALUE-SEND_ACTIVITY") And
@@ -63,31 +63,31 @@
         End If
 
     End Sub
-    Public Function PC_valid_Field(pTStrRec As TStrRec) As Boolean
+    Public Function PC_valid_Field(pTStrRec As SAPCommon.TStrRec) As Boolean
         PC_valid_Field = False
-        Select Case pTStrRec.STRUCNAME.Value
+        Select Case pTStrRec.Strucname
             Case "HEADERINFO"
-                PC_valid_Field = isInArray(pTStrRec.FIELDNAME.Value, PC_Header_Fields)
+                PC_valid_Field = isInArray(pTStrRec.Fieldname, PC_Header_Fields)
             Case "COOBJECT"
-                PC_valid_Field = isInArray(pTStrRec.FIELDNAME.Value, PC_Object_Fields)
+                PC_valid_Field = isInArray(pTStrRec.Fieldname, PC_Object_Fields)
             Case "PERVALUE"
-                PC_valid_Field = isInArray(Left(pTStrRec.FIELDNAME.Value, 11), PC_PerVal_Fields)
+                PC_valid_Field = isInArray(Left(pTStrRec.Fieldname, 11), PC_PerVal_Fields)
         End Select
     End Function
 
     Public Function getPCKey(pTPlanRec As TPlanRec) As String
-        Dim aTStrRec As TStrRec
+        Dim aTStrRec As SAPCommon.TStrRec
         Dim aKeyField As String = ""
         Dim aRet As String = ""
         For Each aTStrRec In pTPlanRec.aTPlanRecCol
             aKeyField = ""
-            Select Case aTStrRec.STRUCNAME.Value
+            Select Case aTStrRec.Strucname
                 Case "HEADERINFO"
-                    aKeyField = If(isInArray(aTStrRec.FIELDNAME.Value, PC_Header_Key), aTStrRec.VALUE.Value, "")
+                    aKeyField = If(isInArray(aTStrRec.Fieldname, PC_Header_Key), aTStrRec.Value, "")
                 Case "COOBJECT"
-                    aKeyField = If(isInArray(aTStrRec.FIELDNAME.Value, PC_Object_Key), aTStrRec.VALUE.Value, "")
+                    aKeyField = If(isInArray(aTStrRec.Fieldname, PC_Object_Key), aTStrRec.Value, "")
                 Case "PERVALUE"
-                    aKeyField = If(isInArray(aTStrRec.FIELDNAME.Value, PC_PerVal_Key), aTStrRec.VALUE.Value, "")
+                    aKeyField = If(isInArray(aTStrRec.Fieldname, PC_PerVal_Key), aTStrRec.Value, "")
             End Select
             If aKeyField <> "" Then
                 aRet = If(aRet = "", aKeyField, aRet & "-" & aKeyField)
@@ -100,7 +100,7 @@
         Dim aYear As String
         Dim aTPlanRec As New TPlanRec
         Dim aAIaTPlanRec As TPlanRec
-        Dim aTStrRec As TStrRec
+        Dim aTStrRec As SAPCommon.TStrRec
         Dim aKey As String
         For Each aTPlanRec In pTPlan.aTPlanCol
             If aTPlanRec.aTPlanRecCol.Contains("PERVALUE-SEND_CCTR") And aTPlanRec.aTPlanRecCol.Contains("PERVALUE-SEND_ACTIVITY") Then
@@ -119,31 +119,31 @@
         Next
     End Sub
 
-    Public Function AI_valid_Field(pTStrRec As TStrRec) As Boolean
+    Public Function AI_valid_Field(pTStrRec As SAPCommon.TStrRec) As Boolean
         AI_valid_Field = False
-        Select Case pTStrRec.STRUCNAME.Value
+        Select Case pTStrRec.Strucname
             Case "HEADERINFO"
-                AI_valid_Field = isInArray(pTStrRec.FIELDNAME.Value, AI_Header_Fields)
+                AI_valid_Field = isInArray(pTStrRec.Fieldname, AI_Header_Fields)
             Case "COOBJECT"
-                AI_valid_Field = isInArray(pTStrRec.FIELDNAME.Value, AI_Object_Fields)
+                AI_valid_Field = isInArray(pTStrRec.Fieldname, AI_Object_Fields)
             Case "PERVALUE"
-                AI_valid_Field = isInArray(Left(pTStrRec.FIELDNAME.Value, 11), AI_PerVal_Fields)
+                AI_valid_Field = isInArray(Left(pTStrRec.Fieldname, 11), AI_PerVal_Fields)
         End Select
     End Function
 
     Public Function getAIKey(pTPlanRec As TPlanRec) As String
-        Dim aTStrRec As TStrRec
+        Dim aTStrRec As SAPCommon.TStrRec
         Dim aKeyField As String = ""
         Dim aRet As String = ""
         For Each aTStrRec In pTPlanRec.aTPlanRecCol
             aKeyField = ""
-            Select Case aTStrRec.STRUCNAME.Value
+            Select Case aTStrRec.Strucname
                 Case "HEADERINFO"
-                    aKeyField = If(isInArray(aTStrRec.FIELDNAME.Value, AI_Header_Key), aTStrRec.VALUE.Value, "")
+                    aKeyField = If(isInArray(aTStrRec.Fieldname, AI_Header_Key), aTStrRec.Value, "")
                 Case "COOBJECT"
-                    aKeyField = If(isInArray(aTStrRec.FIELDNAME.Value, AI_Object_Key), aTStrRec.VALUE.Value, "")
+                    aKeyField = If(isInArray(aTStrRec.Fieldname, AI_Object_Key), aTStrRec.Value, "")
                 Case "PERVALUE"
-                    aKeyField = If(isInArray(aTStrRec.FIELDNAME.Value, AI_PerVal_Key), aTStrRec.VALUE.Value, "")
+                    aKeyField = If(isInArray(aTStrRec.Fieldname, AI_PerVal_Key), aTStrRec.Value, "")
             End Select
             If aKeyField <> "" Then
                 aRet = If(aRet = "", aKeyField, aRet & "-" & aKeyField)

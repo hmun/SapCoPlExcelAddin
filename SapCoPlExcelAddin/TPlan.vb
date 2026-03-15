@@ -1,9 +1,9 @@
 ﻿Public Class TPlan
 
     Public aTPlanCol As Collection
-    Private aPar As TPar
+    Private aPar As SAPCommon.TStr
 
-    Public Sub New(ByRef pPar As TPar)
+    Public Sub New(ByRef pPar As SAPCommon.TStr)
         aTPlanCol = New Collection
         aPar = pPar
     End Sub
@@ -45,6 +45,14 @@
         If aTPlanCol.Contains(pKey) Then
             aTPlanRec = aTPlanCol(pKey)
             aTPlanRec.buildValFields()
+        End If
+    End Sub
+
+    Public Sub buildValFieldsTot(pKey As String, pPeriod As String)
+        Dim aTPlanRec As TPlanRec
+        If aTPlanCol.Contains(pKey) Then
+            aTPlanRec = aTPlanCol(pKey)
+            aTPlanRec.buildValFieldsTot(pPeriod)
         End If
     End Sub
 
